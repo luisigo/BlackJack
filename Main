@@ -1,9 +1,84 @@
 import random
-import os
-import time
+def play_blackjack():
+    playerIn = True
+    dealerIn = True
 
-deck = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A']
-playerHand = []
-dealerHand = []
+    deck = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A']
+    playerHand = []
+    dealerHand = []
 
+    #Deal cards
+    def dealCard(turn):
+        card = random.choice(deck)
+        turn.append(card)
+        deck.remove(card)
 
+    def total(turn):
+        total = 0
+        face = ['J', 'Q', 'K']
+        for card in turn:
+            if card in range(1,11):
+                total += card
+            elif card in face:
+                total += 10
+            else:
+                if total > 11:
+                    total += 1
+                else:
+                    total += 11
+        return total
+
+    def revealDealerHand():
+        if len(dealerHand) == 2:
+            return dealerHand[0]
+        elif len(dealerHand) > 2:
+            return dealerHand[0], dealerHand[1]
+    
+
+    for k in range(2):
+        dealCard(dealerHand)
+        dealCard(playerHand)
+    while playerIn or dealerIn:
+        print(f"Dealer has {revealDealerHand()} and something")
+        print(f"You have {playerHand} for a total of {total(playerHand)}")
+        if playerIn:
+            stayOrHit = input("S: Stay\nH: Hit\n")
+        if total(dealerHand) == 17:
+            dealerIn = False
+        else:
+            dealCard(dealerHand)
+        if stayOrHit.upper() == 'S':
+            playerIn = False
+        else:
+            dealCard(playerHand)
+        if total(playerHand) >= 21:
+            break
+        elif total(dealerHand) >= 21:
+            break
+
+    if total(playerHand) == 21:
+        print(f"\nYou have {playerHand} for a total of {total(playerHand)}. The dealer has {dealerHand} for a total of {total(dealerHand)}")
+        print("Blackjack! You win")
+    elif total(dealerHand) == 21:
+        print(f"\nYou have {playerHand} for a total of {total(playerHand)}. The dealer has {dealerHand} for a total of {total(dealerHand)}")
+        print("Blackjack! Dealer wins")
+    elif total(playerHand) > 21:
+        print(f"\nYou have {playerHand} for a total of {total(playerHand)}. The dealer has {dealerHand} for a total of {total(dealerHand)}")
+        print("You bust! Dealer wins")
+    elif total(dealerHand) > 21:
+        print(f"\nYou have {playerHand} for a total of {total(playerHand)}. The dealer has {dealerHand} for a total of {total(dealerHand)}")
+        print("Dealer bust! You win")
+    elif total(dealerHand) > total(playerHand):
+        print(f"\nYou have {playerHand} for a total of {total(playerHand)}. The dealer has {dealerHand} for a total of {total(dealerHand)}")
+        print("Dealer wins")
+    elif total(dealerHand) < total(playerHand):
+        print(f"\nYou have {playerHand} for a total of {total(playerHand)}. The dealer has {dealerHand} for a total of {total(dealerHand)}")
+        print("You win")
+    print(dealerHand)
+    print(playerHand)
+
+while(True):
+    play_blackjack()
+    play_again = input("Do you like to play again?")
+    if play_again.upper() != 'Y':
+        break
