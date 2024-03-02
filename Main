@@ -1,4 +1,31 @@
 import random
+
+class Alan:
+    @staticmethod
+    def get_advice(total(playerHand)):
+        if total(playerHand) >= 17:
+            return 'Stay'
+        else:
+            return 'H'
+        
+class Mark:
+    @staticmethod
+    def get_advice(total(playerHand)):
+        if total(playerHand) >= 16:
+            return 'S'
+        else:
+            return 'H'
+        
+def choose_bot():
+    while True:
+        choice = input("Choose bot: A for Alan(Aggressive), M for Mark(Conservative): ").upper()
+        if choice == 'A':
+            return Alan
+        elif choice == 'C':
+            return Mark
+        else:
+            print("Invalid choice. Please choose again.")
+        
 def play_blackjack():
     playerIn = True
     dealerIn = True
@@ -38,9 +65,26 @@ def play_blackjack():
     for k in range(2):
         dealCard(dealerHand)
         dealCard(playerHand)
+    
+    bot = choose_bot()
+
     while playerIn or dealerIn:
         print(f"Dealer has {revealDealerHand()} and something")
         print(f"You have {playerHand} for a total of {total(playerHand)}")
+        
+        # Bot advice
+        if playerIn:
+            player_total = total(playerHand)
+            if player_total >= 17:
+                bot_advice = 'S'
+            elif player_total <= 11:
+                bot_advice = 'H'
+            elif player_total >= 12:
+                bot_advice = Alan.get_advice(player_total)
+            else:
+                bot_advice = Teddy.get_advice(player_total)
+
+            print("Bot advice:", bot_advice)
         if playerIn:
             stayOrHit = input("S: Stay\nH: Hit\n")
         if total(dealerHand) == 17:
