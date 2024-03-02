@@ -2,31 +2,32 @@ import random
 
 class Alan:
     @staticmethod
-    def get_advice(total(playerHand)):
-        if total(playerHand) >= 17:
+    def get_advice(player_total):
+        if player_total >= 17:
             return 'Stay'
         else:
-            return 'H'
+            return 'Hit'
         
 class Mark:
     @staticmethod
-    def get_advice(total(playerHand)):
-        if total(playerHand) >= 16:
-            return 'S'
+    def get_advice(player_total):
+        if player_total >= 16:
+            return 'Stay'
         else:
-            return 'H'
+            return 'Hit'
         
 def choose_bot():
     while True:
         choice = input("Choose bot: A for Alan(Aggressive), M for Mark(Conservative): ").upper()
         if choice == 'A':
             return Alan
-        elif choice == 'C':
+        elif choice == 'M':
             return Mark
         else:
             print("Invalid choice. Please choose again.")
         
 def play_blackjack():
+    print("Welcome to BlackJack by luisigo!")
     playerIn = True
     dealerIn = True
 
@@ -49,10 +50,11 @@ def play_blackjack():
             elif card in face:
                 total += 10
             else:
-                if total > 11:
-                    total += 1
-                else:
-                    total += 11
+                if card == 'A':
+                    if total + 11 > 21:
+                        total += 1
+                    else:
+                        total += 11
         return total
 
     def revealDealerHand():
@@ -75,14 +77,18 @@ def play_blackjack():
         # Bot advice
         if playerIn:
             player_total = total(playerHand)
-            if player_total >= 17:
-                bot_advice = 'S'
-            elif player_total <= 11:
-                bot_advice = 'H'
-            elif player_total >= 12:
-                bot_advice = Alan.get_advice(player_total)
+            bot_advice = bot.get_advice(player_total)
+            print("Bot advice:", bot_advice)
+
+            stayOrHit = input("S: Stay\nH: Hit\n").upper()
+            if stayOrHit == 'S':
+                playerIn = False
             else:
-                bot_advice = Teddy.get_advice(player_total)
+                dealCard(playerHand)
+                print(f"Your hand: {playerHand} for a total of {total(playerHand)}")
+                print("Dealer hand: ", dealerHand)
+                if total(playerHand) >= 21:
+                    break
 
             print("Bot advice:", bot_advice)
         if playerIn:
