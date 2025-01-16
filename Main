@@ -2,16 +2,16 @@ import random
 
 class Alan:
     @staticmethod
-    def get_advice(player_total):
-        if player_total >= 17:
+    def get_advice(count_total):
+        if count_total >= :
             return 'Stay'
         else:
             return 'Hit'
         
 class Mark:
     @staticmethod
-    def get_advice(player_total):
-        if player_total >= 16:
+    def get_advice(count_total):
+        if count_total >= 16:
             return 'Stay'
         else:
             return 'Hit'
@@ -129,6 +129,6 @@ def play_blackjack():
 
 while(True):
     play_blackjack()
-    play_again = input("Do you like to play again?")
+    play_again = input("Would you like to play again?")
     if play_again.upper() != 'Y':
         break
