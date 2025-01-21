@@ -18,44 +18,39 @@ class Mark:
         
 def choose_bot():
     while True:
-        choice = input("Choose bot: A for Alan(Aggressive), M for Mark(Conservative): ").upper()
+        choice = input('Choose bot: A for Alan(Aggressive), M for Mark(Conservative): ').upper()
         if choice == 'A':
             return Alan
         elif choice == 'M':
             return Mark
         else:
-            print("Invalid choice. Please choose again.")
+            print('Invalid choice. Please choose again.')
         
 def play_blackjack():
-    print("Welcome to BlackJack by luisigo!")
+    print('Welcome to BlackJack by luisigo!')
     playerIn = True
     dealerIn = True
 
-    deck = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A']
+    ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A']
+    suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
+    deck = [(rank, suit) for rank in ranks for suit in suits]
+    random.shuffle(deck)
     playerHand = []
     dealerHand = []
 
     #Deal cards
-    def dealCard(turn):
-        card = random.choice(deck)
-        turn.append(card)
-        deck.remove(card)
+    def deal_initial_cards(deck):
+        player_hand = [deck.pop(), deck.pop()]
+        dealer_hand = [deck.pop(), deck.pop()]
+        return player_hand, dealer_hand
 
-    def total(turn):
+    def calculate_total(hand):
         total = 0
+        aces = 0
+
         face = ['J', 'Q', 'K']
-        for card in turn:
-            if card in range(1,11):
-                total += card
-            elif card in face:
-                total += 10
-            else:
-                if card == 'A':
-                    if total + 11 > 21:
-                        total += 1
-                    else:
-                        total += 11
-        return total
+        for card in hand:
+            if rank in ['Jack', 'Queen', 'King']
 
     def revealDealerHand():
         if len(dealerHand) == 2:
@@ -71,28 +66,28 @@ def play_blackjack():
     bot = choose_bot()
 
     while playerIn or dealerIn:
-        print(f"Dealer has {revealDealerHand()} and something")
-        print(f"You have {playerHand} for a total of {total(playerHand)}")
+        print(f'Dealer has {revealDealerHand()} and something')
+        print(f'You have {playerHand} for a total of {total(playerHand)}')
         
         # Bot advice
         if playerIn:
             player_total = total(playerHand)
             bot_advice = bot.get_advice(player_total)
-            print("Bot advice:", bot_advice)
+            print('Bot advice:', bot_advice)
 
-            stayOrHit = input("S: Stay\nH: Hit\n").upper()
+            stayOrHit = input('S: Stay\nH: Hit\n').upper()
             if stayOrHit == 'S':
                 playerIn = False
             else:
                 dealCard(playerHand)
-                print(f"Your hand: {playerHand} for a total of {total(playerHand)}")
-                print("Dealer hand: ", dealerHand)
+                print(f'Your hand: {playerHand} for a total of {total(playerHand)}')
+                print('Dealer hand: ', dealerHand)
                 if total(playerHand) >= 21:
                     break
 
-            print("Bot advice:", bot_advice)
+            print('Bot advice:', bot_advice)
         if playerIn:
-            stayOrHit = input("S: Stay\nH: Hit\n")
+            stayOrHit = input('S: Stay\nH: Hit\n')
         if total(dealerHand) == 17:
             dealerIn = False
         else:
@@ -107,28 +102,28 @@ def play_blackjack():
             break
 
     if total(playerHand) == 21:
-        print(f"\nYou have {playerHand} for a total of {total(playerHand)}. The dealer has {dealerHand} for a total of {total(dealerHand)}")
-        print("Blackjack! You win")
+        print(f'\nYou have {playerHand} for a total of {total(playerHand)}. The dealer has {dealerHand} for a total of {total(dealerHand)}')
+        print('Blackjack! You win')
     elif total(dealerHand) == 21:
-        print(f"\nYou have {playerHand} for a total of {total(playerHand)}. The dealer has {dealerHand} for a total of {total(dealerHand)}")
-        print("Blackjack! Dealer wins")
+        print(f'\nYou have {playerHand} for a total of {total(playerHand)}. The dealer has {dealerHand} for a total of {total(dealerHand)}')
+        print('Blackjack! Dealer wins')
     elif total(playerHand) > 21:
-        print(f"\nYou have {playerHand} for a total of {total(playerHand)}. The dealer has {dealerHand} for a total of {total(dealerHand)}")
-        print("You bust! Dealer wins")
+        print(f'\nYou have {playerHand} for a total of {total(playerHand)}. The dealer has {dealerHand} for a total of {total(dealerHand)}')
+        print('You bust! Dealer wins')
     elif total(dealerHand) > 21:
-        print(f"\nYou have {playerHand} for a total of {total(playerHand)}. The dealer has {dealerHand} for a total of {total(dealerHand)}")
-        print("Dealer bust! You win")
+        print(f'\nYou have {playerHand} for a total of {total(playerHand)}. The dealer has {dealerHand} for a total of {total(dealerHand)}')
+        print('Dealer bust! You win')
     elif total(dealerHand) > total(playerHand):
-        print(f"\nYou have {playerHand} for a total of {total(playerHand)}. The dealer has {dealerHand} for a total of {total(dealerHand)}")
-        print("Dealer wins")
+        print(f'\nYou have {playerHand} for a total of {total(playerHand)}. The dealer has {dealerHand} for a total of {total(dealerHand)}')
+        print('Dealer wins')
     elif total(dealerHand) < total(playerHand):
-        print(f"\nYou have {playerHand} for a total of {total(playerHand)}. The dealer has {dealerHand} for a total of {total(dealerHand)}")
-        print("You win")
+        print(f'\nYou have {playerHand} for a total of {total(playerHand)}. The dealer has {dealerHand} for a total of {total(dealerHand)}')
+        print('You win')
     print(dealerHand)
     print(playerHand)
 
 while(True):
     play_blackjack()
-    play_again = input("Would you like to play again?")
+    play_again = input('Would you like to play again?')
     if play_again.upper() != 'Y':
         break
